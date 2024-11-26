@@ -29,6 +29,9 @@ OBJ = $(SRC:.c=.o)
 NAME = my_hunter
 
 all: $(OBJ)
+	$(CC) $(OBJ) $(CFLAGS) $(SFMLFLAGS) -o $(NAME)
+
+debug: $(OBJ)
 	$(CC) $(OBJ) $(CFLAGS) $(DEBUGFLAGS) $(SFMLFLAGS) -o $(NAME)
 
 clean:
