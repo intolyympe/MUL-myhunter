@@ -21,6 +21,7 @@ sfSprite *create_background(char *filepath)
 {
     sfSprite* sprite2 = sfSprite_create();
     sfTexture* texture2 = sfTexture_createFromFile(filepath, NULL);
+
     sfSprite_setTexture(sprite2, texture2, sfTrue);
     return sprite2;
 }
@@ -29,6 +30,7 @@ sfSprite *create_ground(char *filepath)
 {
     sfSprite* sprite3 = sfSprite_create();
     sfTexture* texture3 = sfTexture_createFromFile(filepath, NULL);
+
     sfSprite_setTexture(sprite3, texture3, sfTrue);
     return sprite3;
 }

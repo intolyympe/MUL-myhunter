@@ -17,20 +17,20 @@
 #include "../include/hunter.h"
 #include "../include/my.h"
 
-int init_window(game_t* game)
+int init_window(game_t *game)
 {
     sfVideoMode mode = {736, 552, 32};
+
     if (!game->window)
         return 84;
-
-    game->window = sfRenderWindow_create(mode, "SFML window", sfResize | sfClose, NULL);
+    game->window = sfRenderWindow_create(mode, "SFML window",
+        sfResize | sfClose, NULL);
     game->sprite2 = create_background("img/background1.jpeg");
-    //test->sprite3= create_ground("img/");
     sfRenderWindow_setFramerateLimit(game->window, 60);
     return 0;
 }
 
-int events(game_t* game)
+int events(game_t *game)
 {
     //player_t player;
     //duck_t duck;
@@ -42,7 +42,6 @@ int events(game_t* game)
             //player.rect = sfSprite_getGlobalBounds();
             mouse_position = sfMouse_getPositionRenderWindow(game->window);
             my_printf("x = %d\ny = %d\n", mouse_position.x, mouse_position.y);
-
         }
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(game->window);
@@ -50,7 +49,7 @@ int events(game_t* game)
     return 0;
 }
 
-int clean_window(game_t* game, duck_t *duck)
+int clean_window(game_t *game, duck_t *duck)
 {
     sfSprite_destroy(duck->sprite1);
     sfSprite_destroy(game->sprite2);

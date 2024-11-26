@@ -21,6 +21,7 @@ typedef struct game_s {
     sfRenderWindow* window;
     sfSprite* sprite1;
     sfSprite* sprite2;
+    sfSprite* sprite3;
 } game_t;
 //game_t* game = malloc(sizeof(game_t))
 
@@ -32,11 +33,17 @@ typedef struct duck_s {
     sfIntRect rect;
 } duck_t;
 
+typedef struct player_s {
+    int score;
+    sfVector2i mouse_position;
+    sfFloatRect *rect;
+} player_t;
+
 duck_t *init_duck1(void);
-sfSprite *create_sprite2(char *filepath);
+sfSprite *create_background(char *filepath);
 int events(game_t *test);
 int init_window(game_t *test);
-int clean_window(game_t* test, duck_t *duck);
+int clean_window(game_t *test, duck_t *duck);
 void animate_duck(duck_t *duck, sfClock *clock);
 void move_duck(duck_t *duck);
 

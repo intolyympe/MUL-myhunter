@@ -47,6 +47,7 @@ void animate_duck(duck_t *duck, sfClock *clock)
 void move_duck(duck_t *duck)
 {
     sfVector2f value = (sfVector2f){-200, rand() % 300};
+
     duck->position = sfSprite_getPosition(duck->sprite1);
     sfSprite_move(duck->sprite1, (sfVector2f){2, 0});
     if (duck->position.x >= 740)
