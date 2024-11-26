@@ -39,7 +39,7 @@ int events(game_t* game)
 
         while (sfRenderWindow_pollEvent(game->window, &event)) {
         if (sfMouse_isButtonPressed(sfMouseLeft)) {
-            //sfFloatRect rect = sfSprite_getGlobalBounds(player->duck->sprite);
+            //player.rect = sfSprite_getGlobalBounds();
             mouse_position = sfMouse_getPositionRenderWindow(game->window);
             my_printf("x = %d\ny = %d\n", mouse_position.x, mouse_position.y);
 
