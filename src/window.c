@@ -30,18 +30,13 @@ int init_window(game_t *game)
     return 0;
 }
 
-int events(game_t *game)
+int events(game_t *game, duck_t *duk, player_t *player)
 {
-    //player_t player;
-    //duck_t duck;
     sfEvent event;
-    sfVector2i mouse_position;
 
         while (sfRenderWindow_pollEvent(game->window, &event)) {
         if (sfMouse_isButtonPressed(sfMouseLeft)) {
-            //player.rect = sfSprite_getGlobalBounds();
-            mouse_position = sfMouse_getPositionRenderWindow(game->window);
-            my_printf("x = %d\ny = %d\n", mouse_position.x, mouse_position.y);
+            kill_duck(game->window, duk, player);
         }
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(game->window);

@@ -13,18 +13,35 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "../include/hunter.h"
 #include "../include/my.h"
 
-int main(void)
+int info_help(int ac, char **av)
+{
+    if (ac > 1) {
+        if (my_strcmp(av[1], "-h") == 0 ||
+        my_strcmp(av[1], "--help") == 0) {
+            my_printf("USAGE\n\t./my_hunter \n\n");
+            my_printf("DESCRIPTION\n\t ");
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main(int ac, char **av)
 {
     game_t test;
+    player_t player;
     duck_t *duk = init_duck1();
     sfClock *clock = sfClock_create();
 
+    if (info_help(ac, av))
+        return 0;
     init_window(&test);
     while (sfRenderWindow_isOpen(test.window)) {
-        events(&test);
+        events(&test, duk, &player);
         sfRenderWindow_clear(test.window, sfBlack);
         sfRenderWindow_drawSprite(test.window, test.sprite2, NULL);
         sfRenderWindow_drawSprite(test.window, duk->sprite1, NULL);
