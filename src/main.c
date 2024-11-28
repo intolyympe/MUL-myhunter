@@ -4,16 +4,7 @@
 ** File description:
 ** main.c
 */
-#include <SFML/Graphics.h>
-#include <SFML/Config.h>
-#include <SFML/Window/Event.h>
-#include <SFML/Window/Window.h>
-#include <SFML/Graphics/Rect.h>
-#include <SFML/System/Types.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+
 #include "../include/hunter.h"
 #include "../include/my.h"
 
@@ -37,34 +28,50 @@ int info_help(int ac, char **av)
     return 0;
 }
 
-void principal(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
+void start_game(game_t *game, player_t *player)
+{
+    sfFloatRect rect3 = sfSprite_getGlobalBounds(game->s_start);
+
+    player->mouse_position = sfMouse_getPositionRenderWindow(game->window);
+    if (sfFloatRect_contains(&rect3,
+    player->mouse_position.x, player->mouse_position.y)) {
+        game->state = GAME;
+    }
+}
+
+void game_p(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
 {
     sfRenderWindow_clear(game->window, sfBlack);
-    if (player->life > 0) {
-        draw_sprite(game, duk, player);
-        animate_duck(duk, clock);
-        move_duck(duk, player);
-        sfRenderWindow_display(game->window);
+    if (game->state == MENU) {
+        sfRenderWindow_drawSprite(game->window, game->sprite_bg, NULL);
+        sfRenderWindow_drawSprite(game->window, game->s_start, NULL);
+    }
+    if (game->state == GAME) {
+        if (player->life > 0) {
+            draw_sprite(game, duk, player);
+            animate_duck(duk, clock);
+            move_duck(duk, player);
         } else
-        sfRenderWindow_drawSprite(game->window, game->sprite_go, NULL);
+            sfRenderWindow_drawSprite(game->window, game->sprite_go, NULL);
+    }
     sfRenderWindow_display(game->window);
 }
 
 int main(int ac, char **av)
 {
-        sfRenderWindow_clear(game->window, sfBlack);
     game_t *game = init_window();
     player_t *player = init_player();
     duck_t *duk = init_duck();
     sfClock *clock = sfClock_create();
 
+    game->state = MENU;
     if (info_help(ac, av))
         return 0;
     if (!game->window)
         return 84;
     while (sfRenderWindow_isOpen(game->window)) {
             events(game, duk, player);
-            principal(game, duk, player, clock);
+            game_p(game, duk, player, clock);
     }
     clean_window(game, duk, player);
     return 0;

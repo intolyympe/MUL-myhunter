@@ -16,13 +16,22 @@
     #include "../include/hunter.h"
     #include "../include/my.h"
 
+typedef enum game_state_t_s {
+    MENU,
+    GAME,
+    GAMEOVER,
+} game_state_t_t;
+
 typedef struct game_s {
     sfRenderWindow* window;
     sfVideoMode mode;
     sfSprite *sprite_bg;
     sfTexture *texture_bg;
+    sfSprite *s_start;
+    sfTexture *t_start;
     sfSprite *sprite_go;
     sfTexture *texture_go;
+    game_state_t_t state;
 } game_t;
 //
 
@@ -54,6 +63,7 @@ player_t *init_player(void);
 int events(game_t *game, duck_t *duk, player_t *player);
 int clean_window(game_t *game, duck_t *duck, player_t *player);
 int draw_sprite(game_t *game, duck_t *duk, player_t *player);
+void start_game(game_t *game, player_t *player);
 void animate_duck(duck_t *duck, sfClock *clock);
 void move_duck(duck_t *duck, player_t *player);
 void kill_duck(sfRenderWindow *window, duck_t *duck, player_t *player);
