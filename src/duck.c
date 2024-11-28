@@ -44,6 +44,7 @@ void move_duck(duck_t *duck, player_t *player)
     if (duck->position.x >= 2000) {
         player->rect_life.top -= 78;
         player->life -= 1;
+        my_printf("%d", player->life);
         sfSprite_setTextureRect(player->sprite_life, player->rect_life);
         sfSprite_setPosition(duck->sprite_duck,
                             (sfVector2f){-200, rand() % 650});

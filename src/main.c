@@ -39,19 +39,20 @@ int info_help(int ac, char **av)
 
 void principal(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
 {
+    sfRenderWindow_clear(game->window, sfBlack);
     if (player->life > 0) {
-        sfRenderWindow_clear(game->window, sfBlack);
-        draw_Sprite(game, duk, player);
+        draw_sprite(game, duk, player);
         animate_duck(duk, clock);
         move_duck(duk, player);
         sfRenderWindow_display(game->window);
-        } else {
-            sfRenderWindow_drawSprite(game->window, game->sprite_go, NULL);
-        }
+        } else
+        sfRenderWindow_drawSprite(game->window, game->sprite_go, NULL);
+    sfRenderWindow_display(game->window);
 }
 
 int main(int ac, char **av)
 {
+        sfRenderWindow_clear(game->window, sfBlack);
     game_t *game = init_window();
     player_t *player = init_player();
     duck_t *duk = init_duck();
