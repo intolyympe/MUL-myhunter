@@ -5,61 +5,61 @@
 ** duck.c
 */
 
-#include <SFML/Graphics.h>
-#include <SFML/Config.h>
-#include <SFML/Window/Event.h>
-#include <SFML/Window/Window.h>
-#include <SFML/Graphics/Rect.h>
-#include <SFML/System/Types.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "../include/hunter.h"
 #include "../include/my.h"
 
-duck_t *init_duck1(void)
+duck_t *init_duck(void)
 {
     duck_t *duck = malloc(sizeof(duck_t));
 
-    duck->sprite1 = sfSprite_create();
-    duck->texture1 = sfTexture_createFromFile("img/duck.png", NULL);
+    duck->sprite_duck = sfSprite_create();
+    duck->texture_duck = sfTexture_createFromFile("img/duck.png", NULL);
     duck->rect.left = 0;
     duck->rect.top = 0;
     duck->rect.width = 110;
     duck->rect.height = 110;
-    duck->rand_value = (sfVector2f){-200, rand() % 350};
-    sfSprite_setTexture(duck->sprite1, duck->texture1, sfTrue);
-    sfSprite_setTextureRect(duck->sprite1, duck->rect);
+    sfSprite_setTexture(duck->sprite_duck, duck->texture_duck, sfTrue);
+    sfSprite_setTextureRect(duck->sprite_duck, duck->rect);
+    sfSprite_setPosition(duck->sprite_duck, (sfVector2f){-200, 50});
     return duck;
 }
 
 void animate_duck(duck_t *duck, sfClock *clock)
 {
-    if (sfTime_asSeconds(sfClock_getElapsedTime(clock)) > 0.16f) {
+    if (sfTime_asSeconds(sfClock_getElapsedTime(clock)) > 0.16f)
+    {
         duck->rect.left += 110;
         if (duck->rect.left >= 330) {
-        duck->rect.left = 0;
+            duck->rect.left = 0;
         }
-        sfSprite_setTextureRect(duck->sprite1, duck->rect);
+        sfSprite_setTextureRect(duck->sprite_duck, duck->rect);
         sfClock_restart(clock);
     }
 }
 
-void move_duck(duck_t *duck)
+void move_duck(duck_t *duck, player_t *player)
 {
-    duck->position = sfSprite_getPosition(duck->sprite1);
-    sfSprite_move(duck->sprite1, (sfVector2f){2, 0});
-    if (duck->position.x >= 740)
-        sfSprite_setPosition(duck->sprite1, duck->rand_value);
+    duck->position = sfSprite_getPosition(duck->sprite_duck);
+    sfSprite_move(duck->sprite_duck, (sfVector2f){10, 0});
+    if (duck->position.x >= 2000) {
+        player->rect_life.top -= 78;
+        player->life -= 1;
+        sfSprite_setTextureRect(player->sprite_life, player->rect_life);
+        sfSprite_setPosition(duck->sprite_duck,
+                            (sfVector2f){-200, rand() % 650});
+    }
 }
 
 void kill_duck(sfRenderWindow *window, duck_t *duck, player_t *player)
 {
-    sfFloatRect rect2 = sfSprite_getGlobalBounds(duck->sprite1);
+    sfFloatRect rect2 = sfSprite_getGlobalBounds(duck->sprite_duck);
 
     player->mouse_position = sfMouse_getPositionRenderWindow(window);
     if (sfFloatRect_contains(&rect2,
-        player->mouse_position.x, player->mouse_position.y)) {
-            sfSprite_setPosition(duck->sprite1, duck->rand_value);
+                        player->mouse_position.x, player->mouse_position.y)) {
+            player->score += 100;
+            sfText_setString(player->text, my_int_to_str(player->score));
+            sfSprite_setPosition(duck->sprite_duck,
+            (sfVector2f){-200, rand() % 650});
     }
 }

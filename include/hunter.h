@@ -13,22 +13,22 @@
     #include <SFML/Window/Window.h>
     #include <SFML/Graphics/Rect.h>
     #include <stdlib.h>
-    #include <stdio.h>
     #include "../include/hunter.h"
     #include "../include/my.h"
 
 typedef struct game_s {
     sfRenderWindow* window;
     sfVideoMode mode;
-    sfSprite* sprite1;
-    sfSprite* sprite2;
-    sfSprite* sprite3;
+    sfSprite *sprite_bg;
+    sfTexture *texture_bg;
+    sfSprite *sprite_go;
+    sfTexture *texture_go;
 } game_t;
 //
 
 typedef struct duck_s {
-    sfSprite *sprite1;
-    sfTexture *texture1;
+    sfSprite *sprite_duck;
+    sfTexture *texture_duck;
     sfVector2f position;
     sfVector2f rand_value;
     sfVector2f vector;
@@ -39,16 +39,23 @@ typedef struct duck_s {
 
 typedef struct player_s {
     int score;
+    int life;
+    sfFont *font;
+    sfText *text;
+    sfSprite *sprite_life;
+    sfTexture *texture_life;
+    sfIntRect rect_life;
     sfVector2i mouse_position;
 } player_t;
 
-duck_t *init_duck1(void);
-sfSprite *create_background(char *filepath);
-int events(game_t *test, duck_t *duk, player_t *player);
-int init_window(game_t *test);
-int clean_window(game_t *test, duck_t *duck);
+duck_t *init_duck(void);
+game_t *init_window(void);
+player_t *init_player(void);
+int events(game_t *game, duck_t *duk, player_t *player);
+int clean_window(game_t *game, duck_t *duck, player_t *player);
+int draw_Sprite(game_t *game, duck_t *duk, player_t *player);
 void animate_duck(duck_t *duck, sfClock *clock);
-void move_duck(duck_t *duck);
+void move_duck(duck_t *duck, player_t *player);
 void kill_duck(sfRenderWindow *window, duck_t *duck, player_t *player);
 
 #endif

@@ -9,13 +9,15 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 SFMLFLAGS = -lcsfml-graphics -lcsfml-system -lcsfml-window
 DEBUGFLAGS = -g3 -ggdb
+PATH_SRC = src/
 PATH_UTILS = utils/
 PATH_PRINTF = utils/printf/
 SRC = $(PATH_SRC)window.c\
-	$(PATH_SRC)background.c\
-	$(PATH_SRC)main.c\
 	$(PATH_SRC)duck.c\
+	$(PATH_SRC)player.c\
+	$(PATH_SRC)main.c\
 	$(PATH_UTILS)my_strcmp.c\
+	$(PATH_UTILS)my_int_to_str.c\
 	$(PATH_PRINTF)my_printf.c\
 	$(PATH_PRINTF)flag_c.c\
 	$(PATH_PRINTF)flag_d.c\
@@ -31,8 +33,9 @@ NAME = my_hunter
 all: $(OBJ)
 	$(CC) $(OBJ) $(CFLAGS) $(SFMLFLAGS) -o $(NAME)
 
-debug: $(OBJ)
+debug: fclean $(OBJ)
 	$(CC) $(OBJ) $(CFLAGS) $(DEBUGFLAGS) $(SFMLFLAGS) -o $(NAME)
+# gdb $(NAME) | run | bt
 
 clean:
 	rm -f $(PATH_SRC)*.o

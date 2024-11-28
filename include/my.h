@@ -24,6 +24,7 @@ int my_put_nbr(int nb);
 int my_strlen(char const *str);
 int my_putstr(char const *str);
 int my_strcmp(char const *s1, char const *s2);
+char *my_int_to_str(int nb);
 
 int flag_s(va_list list);
 int flag_c(va_list list);

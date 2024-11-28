@@ -5,28 +5,34 @@
 ** window.c
 */
 
-#include <SFML/Graphics.h>
-#include <SFML/Config.h>
-#include <SFML/Window/Event.h>
-#include <SFML/Window/Window.h>
-#include <SFML/Graphics/Rect.h>
-#include <SFML/System/Types.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "../include/hunter.h"
 #include "../include/my.h"
 
-int init_window(game_t *game)
+game_t *init_window(void)
 {
-    sfVideoMode mode = {736, 552, 32};
+    game_t *game = malloc(sizeof(game_t));
 
-    if (!game->window)
-        return 84;
-    game->window = sfRenderWindow_create(mode, "SFML window",
-        sfResize | sfClose, NULL);
-    game->sprite2 = create_background("img/background1.jpeg");
+    game->mode.width = 1926;
+    game->mode.height = 1080;
+    game->mode.bitsPerPixel = 32;
+    game->window = sfRenderWindow_create(game->mode, "SFML window",
+    sfResize | sfClose, NULL);
+    game->sprite_bg = sfSprite_create();
+    game->texture_bg = sfTexture_createFromFile("img/background1.jpg", NULL);
+    sfSprite_setTexture(game->sprite_bg, game->texture_bg, sfTrue);
+    game->sprite_go = sfSprite_create();
+    game->texture_go = sfTexture_createFromFile("img/game-over.jpg", NULL);
+    sfSprite_setTexture(game->sprite_go, game->texture_go, sfTrue);
     sfRenderWindow_setFramerateLimit(game->window, 60);
+    return game;
+}
+
+int draw_sprite(game_t *game, duck_t *duk, player_t *player)
+{
+    sfRenderWindow_drawSprite(game->window, game->sprite_bg, NULL);
+    sfRenderWindow_drawSprite(game->window, player->sprite_life, NULL);
+    sfRenderWindow_drawSprite(game->window, duk->sprite_duck, NULL);
+    sfRenderWindow_drawText(game->window, player->text, NULL);
     return 0;
 }
 
@@ -35,19 +41,23 @@ int events(game_t *game, duck_t *duk, player_t *player)
     sfEvent event;
 
         while (sfRenderWindow_pollEvent(game->window, &event)) {
-        if (sfMouse_isButtonPressed(sfMouseLeft)) {
-            kill_duck(game->window, duk, player);
-        }
+        if ((event.type == sfEvtMouseButtonPressed) &&
+            (sfMouse_isButtonPressed(sfMouseLeft))) {
+                kill_duck(game->window, duk, player);
+            }
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(game->window);
     }
     return 0;
 }
 
-int clean_window(game_t *game, duck_t *duck)
+int clean_window(game_t *game, duck_t *duck, player_t *player)
 {
-    sfSprite_destroy(duck->sprite1);
-    sfSprite_destroy(game->sprite2);
+    sfSprite_destroy(duck->sprite_duck);
+    sfSprite_destroy(game->sprite_bg);
     sfRenderWindow_destroy(game->window);
+    free(duck);
+    free(player);
+    free(game);
     return 0;
 }
