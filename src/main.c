@@ -77,6 +77,8 @@ int main(int ac, char **av)
             events(game, duk, player);
             game_p(game, duk, player, clock);
     }
-    clean_window(game, duk, player);
+    clean_duck(duk);
+    clean_player(player);
+    clean_window(game);
     return 0;
 }

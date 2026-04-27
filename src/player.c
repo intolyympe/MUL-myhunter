@@ -31,3 +31,9 @@ player_t *init_player(void)
     sfText_setCharacterSize(player->text, 25);
     return player;
 }
+
+void clean_player(player_t *player)
+{
+    sfText_destroy(player->text);
+    free(player);
+}

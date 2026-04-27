@@ -59,8 +59,10 @@ typedef struct player_s {
 duck_t *init_duck(void);
 game_t *init_window(void);
 player_t *init_player(void);
+void clean_duck(duck_t *duck);
+void clean_player(player_t *player);
+void clean_window(game_t *game);
 int events(game_t *game, duck_t *duk, player_t *player);
-int clean_window(game_t *game, duck_t *duck, player_t *player);
 int draw_sprite(game_t *game, duck_t *duk, player_t *player);
 void start_game(game_t *game, player_t *player);
 void animate_duck(duck_t *duck, sfClock *clock);

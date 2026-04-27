@@ -53,6 +53,13 @@ void move_duck(duck_t *duck, player_t *player)
     }
 }
 
+void clean_duck(duck_t *duck)
+{
+    sfClock_destroy(duck->move_clock);
+    sfSprite_destroy(duck->sprite_duck);
+    free(duck);
+}
+
 void kill_duck(sfRenderWindow *window, duck_t *duck, player_t *player)
 {
     sfFloatRect rect2 = sfSprite_getGlobalBounds(duck->sprite_duck);
