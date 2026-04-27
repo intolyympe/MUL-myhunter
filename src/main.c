@@ -29,34 +29,6 @@ int info_help(int ac, char **av)
     return 0;
 }
 
-void start_game(game_t *game, player_t *player)
-{
-    sfFloatRect rect3 = sfSprite_getGlobalBounds(game->s_start);
-
-    player->mouse_position = sfMouse_getPositionRenderWindow(game->window);
-    if (sfFloatRect_contains(&rect3,
-    player->mouse_position.x, player->mouse_position.y)) {
-        game->state = GAME;
-    }
-}
-
-void game_p(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
-{
-    sfRenderWindow_clear(game->window, sfBlack);
-    if (game->state == MENU) {
-        sfRenderWindow_drawSprite(game->window, game->sprite_bg, NULL);
-        sfRenderWindow_drawSprite(game->window, game->s_start, NULL);
-    }
-    if (game->state == GAME) {
-        if (player->life > 0) {
-            draw_sprite(game, duk, player);
-            animate_duck(duk, clock);
-            move_duck(duk, player);
-        } else
-            sfRenderWindow_drawSprite(game->window, game->sprite_go, NULL);
-    }
-    sfRenderWindow_display(game->window);
-}
 
 int main(int ac, char **av)
 {

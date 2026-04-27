@@ -65,6 +65,7 @@ void clean_window(game_t *game);
 int events(game_t *game, duck_t *duk, player_t *player);
 int draw_sprite(game_t *game, duck_t *duk, player_t *player);
 void start_game(game_t *game, player_t *player);
+void game_p(game_t *game, duck_t *duk, player_t *player, sfClock *clock);
 void animate_duck(duck_t *duck, sfClock *clock);
 void move_duck(duck_t *duck, player_t *player);
 void kill_duck(sfRenderWindow *window, duck_t *duck, player_t *player);

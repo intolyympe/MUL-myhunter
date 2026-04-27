@@ -1,0 +1,38 @@
+/*
+** EPITECH PROJECT, 2024
+** B-MUL-100-RUN-1-1-myhunter-leslye1.jeannin
+** File description:
+** game.c
+*/
+
+#include "../include/hunter.h"
+#include "../include/my.h"
+
+void start_game(game_t *game, player_t *player)
+{
+    sfFloatRect rect = sfSprite_getGlobalBounds(game->s_start);
+
+    player->mouse_position = sfMouse_getPositionRenderWindow(game->window);
+    if (sfFloatRect_contains(&rect,
+        player->mouse_position.x, player->mouse_position.y)) {
+        game->state = GAME;
+    }
+}
+
+void game_p(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
+{
+    sfRenderWindow_clear(game->window, sfBlack);
+    if (game->state == MENU) {
+        sfRenderWindow_drawSprite(game->window, game->sprite_bg, NULL);
+        sfRenderWindow_drawSprite(game->window, game->s_start, NULL);
+    }
+    if (game->state == GAME) {
+        if (player->life > 0) {
+            draw_sprite(game, duk, player);
+            animate_duck(duk, clock);
+            move_duck(duk, player);
+        } else
+            sfRenderWindow_drawSprite(game->window, game->sprite_go, NULL);
+    }
+    sfRenderWindow_display(game->window);
+}

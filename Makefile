@@ -15,6 +15,7 @@ PATH_PRINTF = utils/printf/
 SRC = $(PATH_SRC)window.c\
 	$(PATH_SRC)duck.c\
 	$(PATH_SRC)player.c\
+	$(PATH_SRC)game.c\
 	$(PATH_SRC)main.c\
 	$(PATH_UTILS)my_strcmp.c\
 	$(PATH_UTILS)my_int_to_str.c\
