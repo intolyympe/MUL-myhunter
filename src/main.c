@@ -7,6 +7,7 @@
 
 #include "../include/hunter.h"
 #include "../include/my.h"
+#include <time.h>
 
 int info_help(int ac, char **av)
 {
@@ -64,6 +65,7 @@ int main(int ac, char **av)
     duck_t *duk = init_duck();
     sfClock *clock = sfClock_create();
 
+    srand(time(NULL));
     if (info_help(ac, av))
         return 0;
     if (!game || !game->window || !player || !duk) {

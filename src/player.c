@@ -13,7 +13,7 @@ player_t *init_player(void)
     player_t *player = malloc(sizeof(player_t));
 
     player->life = 4;
-    player->score = 000000;
+    player->score = 0;
     player->sprite_life = sfSprite_create();
     player->texture_life = sfTexture_createFromFile("img/life1.png", NULL);
     player->rect_life.left = 0;
