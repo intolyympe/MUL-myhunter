@@ -14,8 +14,6 @@
     #include <SFML/Graphics/Rect.h>
     #include <stdlib.h>
     #include <unistd.h>
-    #include "../include/hunter.h"
-    #include "../include/my.h"
 
 typedef enum game_state_t_s {
     MENU,
@@ -24,7 +22,7 @@ typedef enum game_state_t_s {
 } game_state_t_t;
 
 typedef struct game_s {
-    sfRenderWindow* window;
+    sfRenderWindow *window;
     sfVideoMode mode;
     sfSprite *sprite_bg;
     sfTexture *texture_bg;
@@ -34,7 +32,6 @@ typedef struct game_s {
     sfTexture *texture_go;
     game_state_t_t state;
 } game_t;
-//
 
 typedef struct duck_s {
     sfSprite *sprite_duck;
