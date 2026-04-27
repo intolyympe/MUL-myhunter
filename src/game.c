@@ -19,6 +19,21 @@ void start_game(game_t *game, player_t *player)
     }
 }
 
+void clean_all(game_t *game, duck_t *duk, player_t *player)
+{
+    clean_duck(duk);
+    clean_player(player);
+    clean_window(game);
+}
+
+void run_game(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
+{
+    while (sfRenderWindow_isOpen(game->window)) {
+        events(game, duk, player);
+        game_p(game, duk, player, clock);
+    }
+}
+
 void game_p(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
 {
     sfRenderWindow_clear(game->window, sfBlack);

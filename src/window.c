@@ -48,9 +48,9 @@ int events(game_t *game, duck_t *duk, player_t *player)
     while (sfRenderWindow_pollEvent(game->window, &event)) {
         if ((event.type == sfEvtMouseButtonPressed) &&
             (sfMouse_isButtonPressed(sfMouseLeft))) {
-                start_game(game, player);
-                kill_duck(game->window, duk, player);
-            }
+            start_game(game, player);
+            kill_duck(game->window, duk, player);
+        }
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(game->window);
     }

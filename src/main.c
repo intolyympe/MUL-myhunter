@@ -11,24 +11,17 @@
 
 int info_help(int ac, char **av)
 {
-    if (ac > 1) {
-        if (my_strcmp(av[1], "-h") == 0 ||
-        my_strcmp(av[1], "--help") == 0) {
-                my_printf("%s\n\t%s\n\n", "USAGE", "./my_hunter");
-                my_printf("%s\n", "DESCRIPTION");
-                my_printf("\t%s", "The basic rules for the my_hunter");
-                my_printf("%s\n\t%s", "as follows:", "• the player");
-                my_printf("\t%s\n", "is a hunter who shoots ducks.");
-                my_printf("\t%s", "• ducks must appear on the screen and ");
-                my_printf("%s\n", "move from one side to another.");
-                my_printf("\t%s", "• the player can click on");
-                my_printf("%s\n\n", "them to shoot them.");
-            return 1;
-        }
-    }
-    return 0;
+    if (ac == 1 || (my_strcmp(av[1], "-h") != 0 &&
+        my_strcmp(av[1], "--help") != 0))
+        return 0;
+    my_printf("%s\n\t%s\n\n", "USAGE", "./my_hunter");
+    my_printf("%s\n", "DESCRIPTION");
+    my_printf("\t%s\n", "The basic rules for my_hunter are as follows:");
+    my_printf("\t%s\n", "• the player is a hunter who shoots ducks.");
+    my_printf("\t%s\n", "• ducks move from one side to another.");
+    my_printf("\t%s\n", "• the player can click on them to shoot them.");
+    return 1;
 }
-
 
 int main(int ac, char **av)
 {
@@ -45,12 +38,7 @@ int main(int ac, char **av)
         return 84;
     }
     game->state = MENU;
-    while (sfRenderWindow_isOpen(game->window)) {
-            events(game, duk, player);
-            game_p(game, duk, player, clock);
-    }
-    clean_duck(duk);
-    clean_player(player);
-    clean_window(game);
+    run_game(game, duk, player, clock);
+    clean_all(game, duk, player);
     return 0;
 }
