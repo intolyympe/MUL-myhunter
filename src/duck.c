@@ -27,8 +27,7 @@ duck_t *init_duck(void)
 
 void animate_duck(duck_t *duck, sfClock *clock)
 {
-    if (sfTime_asSeconds(sfClock_getElapsedTime(clock)) > 0.16f)
-    {
+    if (sfTime_asSeconds(sfClock_getElapsedTime(clock)) > 0.16f) {
         duck->rect.left += 110;
         if (duck->rect.left >= 330) {
             duck->rect.left = 0;
