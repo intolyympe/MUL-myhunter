@@ -13,6 +13,7 @@
     #include <SFML/Window/Window.h>
     #include <SFML/Graphics/Rect.h>
     #include <stdlib.h>
+    #include <unistd.h>
     #include "../include/hunter.h"
     #include "../include/my.h"
 

@@ -64,11 +64,13 @@ int main(int ac, char **av)
     duck_t *duk = init_duck();
     sfClock *clock = sfClock_create();
 
-    game->state = MENU;
     if (info_help(ac, av))
         return 0;
-    if (!game->window)
+    if (!game || !game->window || !player || !duk) {
+        write(2, "Error: initialization failed\n", 29);
         return 84;
+    }
+    game->state = MENU;
     while (sfRenderWindow_isOpen(game->window)) {
             events(game, duk, player);
             game_p(game, duk, player, clock);
