@@ -12,7 +12,7 @@ game_t *init_window(void)
 {
     game_t *game = malloc(sizeof(game_t));
 
-    game->mode.width = 1926;
+    game->mode.width = 1920;
     game->mode.height = 1080;
     game->mode.bitsPerPixel = 32;
     game->window = sfRenderWindow_create(game->mode, "SFML window",
