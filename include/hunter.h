@@ -43,6 +43,7 @@ typedef struct duck_s {
     sfVector2f vector;
     sfIntRect rect;
     sfVector2f scale;
+    sfClock *move_clock;
     int is_dead;
 } duck_t;
 

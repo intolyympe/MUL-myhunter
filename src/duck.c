@@ -21,6 +21,7 @@ duck_t *init_duck(void)
     sfSprite_setTexture(duck->sprite_duck, duck->texture_duck, sfTrue);
     sfSprite_setTextureRect(duck->sprite_duck, duck->rect);
     sfSprite_setPosition(duck->sprite_duck, (sfVector2f){-200, 50});
+    duck->move_clock = sfClock_create();
     return duck;
 }
 
@@ -39,14 +40,17 @@ void animate_duck(duck_t *duck, sfClock *clock)
 
 void move_duck(duck_t *duck, player_t *player)
 {
+    float delta = sfTime_asSeconds(sfClock_getElapsedTime(duck->move_clock));
+
+    sfClock_restart(duck->move_clock);
     duck->position = sfSprite_getPosition(duck->sprite_duck);
-    sfSprite_move(duck->sprite_duck, (sfVector2f){10, 0});
+    sfSprite_move(duck->sprite_duck, (sfVector2f){600.0f * delta, 0});
     if (duck->position.x >= 2000) {
         player->rect_life.top -= 78;
         player->life -= 1;
         sfSprite_setTextureRect(player->sprite_life, player->rect_life);
         sfSprite_setPosition(duck->sprite_duck,
-                            (sfVector2f){-200, rand() % 650});
+            (sfVector2f){-200, rand() % 650});
     }
 }
 

@@ -59,6 +59,7 @@ int events(game_t *game, duck_t *duk, player_t *player)
 
 int clean_window(game_t *game, duck_t *duck, player_t *player)
 {
+    sfClock_destroy(duck->move_clock);
     sfSprite_destroy(duck->sprite_duck);
     sfSprite_destroy(game->sprite_bg);
     sfRenderWindow_destroy(game->window);
