@@ -37,3 +37,16 @@ void clean_player(player_t *player)
     sfText_destroy(player->text);
     free(player);
 }
+
+void player_on_escape(player_t *player)
+{
+    player->rect_life.top -= 78;
+    player->life -= 1;
+    sfSprite_setTextureRect(player->sprite_life, player->rect_life);
+}
+
+void player_on_kill(player_t *player)
+{
+    player->score += 100;
+    sfText_setString(player->text, my_int_to_str(player->score));
+}

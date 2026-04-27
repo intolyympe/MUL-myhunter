@@ -37,20 +37,17 @@ void animate_duck(duck_t *duck, sfClock *clock)
     }
 }
 
-void move_duck(duck_t *duck, player_t *player)
+int move_duck(duck_t *duck)
 {
     float delta = sfTime_asSeconds(sfClock_getElapsedTime(duck->move_clock));
 
     sfClock_restart(duck->move_clock);
     duck->position = sfSprite_getPosition(duck->sprite_duck);
     sfSprite_move(duck->sprite_duck, (sfVector2f){600.0f * delta, 0});
-    if (duck->position.x >= 2000) {
-        player->rect_life.top -= 78;
-        player->life -= 1;
-        sfSprite_setTextureRect(player->sprite_life, player->rect_life);
-        sfSprite_setPosition(duck->sprite_duck,
-            (sfVector2f){-200, rand() % 650});
-    }
+    if (duck->position.x < 2000)
+        return 0;
+    sfSprite_setPosition(duck->sprite_duck, (sfVector2f){-200, rand() % 650});
+    return 1;
 }
 
 void clean_duck(duck_t *duck)
@@ -60,16 +57,13 @@ void clean_duck(duck_t *duck)
     free(duck);
 }
 
-void kill_duck(sfRenderWindow *window, duck_t *duck, player_t *player)
+int duck_is_shot(sfRenderWindow *window, duck_t *duck)
 {
-    sfFloatRect rect2 = sfSprite_getGlobalBounds(duck->sprite_duck);
+    sfFloatRect rect = sfSprite_getGlobalBounds(duck->sprite_duck);
+    sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
 
-    player->mouse_position = sfMouse_getPositionRenderWindow(window);
-    if (sfFloatRect_contains(&rect2,
-                        player->mouse_position.x, player->mouse_position.y)) {
-            player->score += 100;
-            sfText_setString(player->text, my_int_to_str(player->score));
-            sfSprite_setPosition(duck->sprite_duck,
-            (sfVector2f){-200, rand() % 650});
-    }
+    if (!sfFloatRect_contains(&rect, mouse.x, mouse.y))
+        return 0;
+    sfSprite_setPosition(duck->sprite_duck, (sfVector2f){-200, rand() % 650});
+    return 1;
 }

@@ -45,7 +45,8 @@ void game_p(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
         if (player->life > 0) {
             draw_sprite(game, duk, player);
             animate_duck(duk, clock);
-            move_duck(duk, player);
+            if (move_duck(duk))
+                player_on_escape(player);
         } else
             sfRenderWindow_drawSprite(game->window, game->sprite_go, NULL);
     }

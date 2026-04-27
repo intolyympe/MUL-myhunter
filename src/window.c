@@ -49,7 +49,8 @@ int events(game_t *game, duck_t *duk, player_t *player)
         if ((event.type == sfEvtMouseButtonPressed) &&
             (sfMouse_isButtonPressed(sfMouseLeft))) {
             start_game(game, player);
-            kill_duck(game->window, duk, player);
+            if (duck_is_shot(game->window, duk))
+                player_on_kill(player);
         }
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(game->window);
