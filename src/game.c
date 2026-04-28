@@ -34,21 +34,35 @@ void run_game(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
     }
 }
 
-void game_p(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
+static void update_state(game_t *game, player_t *player)
 {
-    sfRenderWindow_clear(game->window, sfBlack);
+    if (game->state == GAME && player->life == 0)
+        game->state = GAMEOVER;
+}
+
+static void draw_state(game_t *game, duck_t *duk, player_t *player,
+    sfClock *clock)
+{
     if (game->state == MENU) {
         sfRenderWindow_drawSprite(game->window, game->sprite_bg, NULL);
         sfRenderWindow_drawSprite(game->window, game->s_start, NULL);
     }
-    if (game->state == GAME) {
-        if (player->life > 0) {
-            draw_sprite(game, duk, player);
-            animate_duck(duk, clock);
-            if (move_duck(duk))
-                player_on_escape(player);
-        } else
-            sfRenderWindow_drawSprite(game->window, game->sprite_go, NULL);
+    if (game->state == GAMEOVER) {
+        sfRenderWindow_drawSprite(game->window, game->sprite_go, NULL);
+        sfRenderWindow_drawText(game->window, player->btn_replay, NULL);
     }
+    if (game->state == GAME) {
+        draw_sprite(game, duk, player);
+        animate_duck(duk, clock);
+        if (move_duck(duk))
+            player_on_escape(player);
+    }
+}
+
+void game_p(game_t *game, duck_t *duk, player_t *player, sfClock *clock)
+{
+    sfRenderWindow_clear(game->window, sfBlack);
+    update_state(game, player);
+    draw_state(game, duk, player, clock);
     sfRenderWindow_display(game->window);
 }

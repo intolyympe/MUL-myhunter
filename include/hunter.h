@@ -50,6 +50,7 @@ typedef struct player_s {
     int life;
     sfFont *font;
     sfText *text;
+    sfText *btn_replay;
     sfSprite *sprite_life;
     sfTexture *texture_life;
     sfIntRect rect_life;
@@ -73,5 +74,6 @@ int move_duck(duck_t *duck);
 int duck_is_shot(sfRenderWindow *window, duck_t *duck);
 void player_on_escape(player_t *player);
 void player_on_kill(player_t *player);
+void player_reset(player_t *player);
 
 #endif

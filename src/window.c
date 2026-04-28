@@ -41,16 +41,32 @@ int draw_sprite(game_t *game, duck_t *duk, player_t *player)
     return 0;
 }
 
+static void handle_replay(game_t *game, duck_t *duk, player_t *player)
+{
+    sfFloatRect rect = sfText_getGlobalBounds(player->btn_replay);
+    sfVector2i mouse = sfMouse_getPositionRenderWindow(game->window);
+
+    if (!sfFloatRect_contains(&rect, mouse.x, mouse.y))
+        return;
+    player_reset(player);
+    sfSprite_setPosition(duk->sprite_duck, (sfVector2f){-200, 50});
+    game->state = GAME;
+}
+
 int events(game_t *game, duck_t *duk, player_t *player)
 {
     sfEvent event;
 
     while (sfRenderWindow_pollEvent(game->window, &event)) {
-        if ((event.type == sfEvtMouseButtonPressed) &&
-            (sfMouse_isButtonPressed(sfMouseLeft))) {
-            start_game(game, player);
-            if (duck_is_shot(game->window, duk))
-                player_on_kill(player);
+        if (event.type == sfEvtMouseButtonPressed &&
+            sfMouse_isButtonPressed(sfMouseLeft)) {
+            if (game->state == GAMEOVER)
+                handle_replay(game, duk, player);
+            else {
+                start_game(game, player);
+                if (duck_is_shot(game->window, duk))
+                    player_on_kill(player);
+            }
         }
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(game->window);
